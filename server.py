@@ -1,8 +1,8 @@
-from flask import Flask, render_template, redirect, Request
+from flask import Flask, render_template, redirect, request
 
 app = Flask(__name__)
 
-counts = 0
+counts = {'GET': 0, 'POST': 0, 'PUT': 0, 'DELETE': 0}
 
 
 @app.route('/')
@@ -10,10 +10,10 @@ def home_page():
     return render_template("main.html", counts=counts)
 
 
-@app.route('/request-counter')
+@app.route('/request-counter', methods=['POST', 'GET', 'PUT', 'DELETE'])
 def request_counter():
     global counts
-    counts += 1
+    counts[request.method] += 1
     return redirect('/')
 
 
